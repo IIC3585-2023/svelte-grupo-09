@@ -1,34 +1,30 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
+  import Router from 'svelte-spa-router';
+  import Navbar from './components/Navbar.svelte';
   import Counter from './lib/Counter.svelte'
+
+  // const routes = {
+  //   '/': DogViewer,
+  //   '/air-pollution': Profile
+  // }
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+  <div class="app-header">
+    <h1 class="app-name">ClimaPuro</h1>
+    <p class="app-slogan">Información precisa sobre el clima y la calidad del aire en tiempo real</p>
   </div>
-  <h1>Vite + Svelte</h1>
-
+  <Navbar />
   <div class="card">
     <Counter />
   </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <!-- <div id="content">
+    <Router {routes}/>
+  </div>         -->
 </main>
 
 <style>
+  @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
   .logo {
     height: 6em;
     padding: 1.5em;
