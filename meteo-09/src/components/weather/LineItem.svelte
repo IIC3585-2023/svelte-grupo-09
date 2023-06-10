@@ -44,17 +44,15 @@
                 </p>
                 </div>
             </div>
-            <!-- <button class="buttoncito is-small" @click="toggleCollapse"></button> -->
+            <button class="buttoncito is-small" on:click={toggleCollapse}></button>
         </div>
     </div>
 
-    <!-- {#each weathers as weather, index}
-        <SmallWeatherItem class={`${ SmallWeatherItem, collapsed=isCollapsed }`}
-            :key="index" :weather="weather" :style="{
-            transform: `translateX(${getTranslationValue(index)})`,
-            opacity: getOpacityValue(),
-            }" />
-    {/each} -->
+    {#each weathers as weather, index}
+        <SmallWeatherItem
+            weather={weather}
+        />
+    {/each}
 </div>
     
 <style scoped>
