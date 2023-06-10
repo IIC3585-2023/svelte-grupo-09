@@ -25,7 +25,8 @@
 <div class="columns pt-6 pb-4">
     <div class="bg-light-grey column is-3">
         <div class="py-2 is-flex is-flex-direction-row pl-3 is-flex is-flex-direction-row">
-            <weather-icon class="mr-6 mt-3" size="is-128x128" :weather="dayWeather.type_weather" />
+            <!-- Revisar porque esto tenía un class, pero no me deja asignarlo class="mr-6 mt-3" -->
+            <WeatherIcon weather={dayWeather.type_weather} size="is-128x128"  />
             <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-space-around">
                 <div style="white-space: nowrap;">
                 <p class="tag is-6 mb-2 has-text-white has-background-grey">
@@ -48,6 +49,14 @@
         </div>
     </div>
 
+    <!-- REVISAR porque no logré poner el class (no entendí tan bien como funcionaba) 
+    old:
+        <SmallWeatherItem :class="{ SmallWeatherItem, collapsed: isCollapsed }" v-for="(weather, index) in weathers"
+            :key="index" :weather="weather" :style="{
+                transform: `translateX(${getTranslationValue(index)})`,
+                opacity: getOpacityValue(),
+            }" />
+    -->
     {#each weathers as weather, index}
         <SmallWeatherItem
             weather={weather}
