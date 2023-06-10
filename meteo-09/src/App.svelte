@@ -1,11 +1,11 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
   import Navbar from './components/Navbar.svelte';
-  import Counter from './lib/Counter.svelte';
   import AirPollutions from './components/airPollution/AirPollutions.svelte';
+  import Weathers from './components/weather/Weathers.svelte';
 
   const routes = {
-    '/': Counter,
+    '/': Weathers,
     '/air-pollution': AirPollutions,
   };
 </script>
