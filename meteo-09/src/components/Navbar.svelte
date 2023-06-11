@@ -1,12 +1,25 @@
 <script setup lang="ts">
+  import { cityStore } from "../stores/city";
+
+  const { subscribe, setSelectedCity } = cityStore;
+  let selectedCity = 0;
+
+  subscribe((state) => {
+    selectedCity = state.selectedCity;
+  });
 </script>
 
 <div class="navbar">
   <div class="navbar-start">
     <div class="control">
       <div class="select">
-        <select>
-          <option>hola</option>
+        <select
+          bind:value={selectedCity}
+          on:change={() => setSelectedCity(selectedCity)}
+        >
+          {#each $cityStore.cities as city, index}
+            <option value={index}>{city.name}</option>
+          {/each}
         </select>
       </div>
     </div>

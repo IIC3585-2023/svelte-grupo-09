@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { weatherStore } from '../../stores/weather';
-  import { cityStore } from '../../stores/city';
-  import { periodsTemp } from '../../scripts/constants';
-  import WeatherItem from './WeatherItem.svelte';
-  
+  import { onMount } from "svelte";
+  import { weatherStore } from "../../stores/weather";
+  import { cityStore } from "../../stores/city";
+  import { periodsTemp } from "../../scripts/constants";
+  import WeatherItem from "./WeatherItem.svelte";
 
   let weatherState;
   let cityState;
@@ -16,6 +15,12 @@
   cityStore.subscribe((state) => {
     cityState = state;
   });
+  $: {
+    console.log(
+      "🚀 ~ file: Weathers.svelte:18 ~ cityStore.subscribe ~ cityState:",
+      cityState
+    );
+  }
 
   const fetchData = async () => {
     const { latitude, longitude } = cityState.cities[cityState.selectedCity];
@@ -28,7 +33,6 @@
   onMount(async () => {
     await fetchData();
   });
-
 </script>
 
 <!-- class="{ 'is-active': period === airPollutionStore.selectedPeriod }" -->
@@ -37,7 +41,7 @@
   <span class="panel-tabs">
     {#each periodsTemp as period}
       <a
-        class={period === weatherState.selectedPeriod ? 'is-active' : ''}
+        class={period === weatherState.selectedPeriod ? "is-active" : ""}
         on:click={() => weatherStore.setSelectedPeriod(period)}
       >
         {period}
