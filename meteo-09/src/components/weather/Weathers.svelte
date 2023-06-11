@@ -8,20 +8,6 @@
   let weatherState;
   let cityState;
 
-  weatherStore.subscribe((state) => {
-    weatherState = state;
-  });
-
-  cityStore.subscribe((state) => {
-    cityState = state;
-  });
-  $: {
-    console.log(
-      "🚀 ~ file: Weathers.svelte:18 ~ cityStore.subscribe ~ cityState:",
-      cityState
-    );
-  }
-
   const fetchData = async () => {
     const { latitude, longitude } = cityState.cities[cityState.selectedCity];
     await Promise.all([
@@ -29,6 +15,15 @@
       weatherStore.fetchWeathers(latitude, longitude),
     ]);
   };
+
+  weatherStore.subscribe((state) => {
+    weatherState = state;
+  });
+
+  cityStore.subscribe((state) => {
+    cityState = state;
+    fetchData();
+  });
 
   onMount(async () => {
     await fetchData();
