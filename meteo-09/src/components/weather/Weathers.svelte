@@ -30,21 +30,38 @@
   });
 </script>
 
-<!-- class="{ 'is-active': period === airPollutionStore.selectedPeriod }" -->
-
-<nav class="is-primary panel">
-  <span class="panel-tabs">
+<nav class="panel is-primary">
+  <div class="panel-tabs">
     {#each periodsTemp as period}
-      <a
-        class={period === weatherState.selectedPeriod ? "is-active" : ""}
+      <button
+        class="tab-button has-text-light"
+        class:is-active={period === weatherState.selectedPeriod}
         on:click={() => weatherStore.setSelectedPeriod(period)}
       >
         {period}
-      </a>
+      </button>
     {/each}
-  </span>
-  <!-- Revisar cómo llegan los datos frente a cambios de período, quiza hacer console log para ver las props en WeatherItem -->
+  </div>
   {#each weatherStore.filteredWeathers(weatherState) as weather}
     <WeatherItem weathers={weather.slice(1)} dayWeather={weather[0]} />
   {/each}
 </nav>
+
+<style>
+  .tab-button {
+    border: none;
+    background: none;
+    padding: 10px;
+    cursor: pointer;
+    outline: inherit;
+    font: inherit;
+    border-bottom: 5px solid transparent;
+    transition: all 0.3s ease;
+  }
+  .tab-button:hover {
+    border-bottom: 5px solid #00d1b2;
+  }
+  .tab-button.is-active {
+    border-bottom: 5px solid #00d1b2;
+  }
+</style>
