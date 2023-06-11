@@ -1,6 +1,9 @@
 <script setup lang="ts">
-  import { cityStore } from "../stores/city";
+  import Modal from './Modal.svelte';
+  import CityForm from './CityForm.svelte';
+  import { cityStore } from '../stores/city';
 
+  let showModal = false;
   const { subscribe, setSelectedCity } = cityStore;
   let selectedCity = 0;
 
@@ -23,7 +26,9 @@
         </select>
       </div>
     </div>
-    <button class="button mx-2">Añadir ciudad</button>
+    <button class="button mx-2" on:click={() => (showModal = true)}
+      >Añadir ciudad</button
+    >
   </div>
   <div class="navbar-end">
     <div class="buttons">
@@ -32,3 +37,7 @@
     </div>
   </div>
 </div>
+
+<Modal bind:showModal>
+  <CityForm on:update:closeModal={() => (showModal = false)} />
+</Modal>
