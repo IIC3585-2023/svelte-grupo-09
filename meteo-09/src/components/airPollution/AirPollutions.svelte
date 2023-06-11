@@ -1,46 +1,34 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { airPollutionStore } from '../../stores/airPollution';
-  // import { useCity } from '../stores/city';
+  import { cityStore } from '../../stores/city';
   import { periodsPol } from '../../scripts/constants';
   import AirPollutionItem from './AirPollutionItem.svelte';
 
-  // const cityStore = useCity();
-
   let airPollutionState;
+  let cityState;
+
+  const fetchData = async () => {
+    const { latitude, longitude } = cityState.cities[cityState.selectedCity];
+    await Promise.all([
+      airPollutionStore.fetchAirPollution(latitude, longitude),
+      airPollutionStore.fetchAirPollutions(latitude, longitude),
+    ]);
+  };
 
   airPollutionStore.subscribe((state) => {
     airPollutionState = state;
   });
 
-  const fetchData = async () => {
-    // const { latitude, longitude } = cityStore.cities[cityStore.selectedCity];
-    await Promise.all([
-      airPollutionStore.fetchAirPollution(-33.4489, -70.6693),
-      airPollutionStore.fetchAirPollutions(-33.4489, -70.6693),
-    ]);
-  };
+  cityStore.subscribe((state) => {
+    cityState = state;
+    fetchData();
+  });
 
   onMount(async () => {
     await fetchData();
   });
-
-  // watch(
-  //   () => [
-  //     cityStore.cities[cityStore.selectedCity].latitude,
-  //     cityStore.cities[cityStore.selectedCity].longitude,
-  //   ],
-  //   async () => {
-  //     await fetchData();
-  //   }
-  // );
-
-  // let filteredAirPollutions: ReturnType<
-  //   typeof airPollutionStore.filteredAirPollutions
-  // >;
 </script>
-
-<!-- class="{ 'is-active': period === airPollutionStore.selectedPeriod }" -->
 
 <nav class="is-primary panel">
   <span class="panel-tabs">
