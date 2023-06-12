@@ -12,9 +12,9 @@
         </a>
       </li>
       <li>
-        <a class="square-button" on:click={() => push('/paises')}>
+        <a class="square-button" on:click={() => push('/cities')}>
           <span class="icon"><i class="fas fa-smog fa-lg" /></span>
-          <span>Países</span>
+          <span>Ciudades</span>
         </a>
       </li>
     </ul>

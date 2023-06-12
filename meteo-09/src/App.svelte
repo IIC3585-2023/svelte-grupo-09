@@ -10,7 +10,7 @@
 
   const routes = {
     '/': Weathers,
-    '/paises': Cities,
+    '/cities': Cities,
   };
 
   onMount(() => {

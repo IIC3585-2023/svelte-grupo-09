@@ -119,4 +119,5 @@ const createWeatherStore = () => {
     filterNextDaysWeathers
   };
 }
+
 export const weatherStore = createWeatherStore();
