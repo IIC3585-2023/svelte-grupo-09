@@ -35,8 +35,6 @@
     flex-shrink: 0;
   }
   .app {
-    /*     border: 10px solid red;
- */
     max-width: 80vw;
     max-height: 95vh;
     margin: 0 auto;
@@ -60,9 +58,6 @@
     -webkit-flex-grow: 1;
     flex-grow: 1;
     margin-right: 1rem;
-  }
-  .is-custom2 {
-    margin-bottom: 1rem;
   }
   .column.is-3 {
     flex: 3;

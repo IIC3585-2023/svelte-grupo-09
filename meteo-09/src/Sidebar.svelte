@@ -1,20 +1,20 @@
 <script>
-  import { push } from "svelte-spa-router";
+  import { push } from 'svelte-spa-router';
 </script>
 
 <div>
   <aside class="menu">
     <ul class="menu-list">
       <li>
-        <a class="square-button" on:click={() => push("/")}>
+        <a class="square-button" on:click={() => push('/')}>
           <span class="icon"><i class="fas fa-cloud-sun fa-lg" /></span>
           <span>Clima</span>
         </a>
       </li>
       <li>
-        <a class="square-button" on:click={() => push("/paises")}>
+        <a class="square-button" on:click={() => push('/paises')}>
           <span class="icon"><i class="fas fa-smog fa-lg" /></span>
-          <span>Paises</span>
+          <span>Países</span>
         </a>
       </li>
     </ul>
