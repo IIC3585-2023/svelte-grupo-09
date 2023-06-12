@@ -1,35 +1,36 @@
 import { writable } from 'svelte/store';
 import { DateTime } from 'luxon'
 import type { Weather } from '../scripts/weather'
-import type { PeriodTemp } from '../scripts/constants';
-import { periodsTemp } from '../scripts/constants';
+import { cityStore } from './city';
+
+
+
+interface CityWeather {
+  weather: Weather; // clima actual. es mas detallado
+  weathers: Weather[]; // lista de todos los climas
+  dailyWeathers: Weather[][]; // lista separada por dias
+}
+
 
 interface WeatherState {
-  weather: Weather
-  weathers: Weather[],
-  daily_weathers: Weather[][],
-  selectedPeriod: PeriodTemp
+  citiesWeather: { [key: number]: CityWeather };
 }
+
 
 const createWeatherStore = () => {
   const { subscribe, set, update } = writable<WeatherState>({
-    weather: {
-      dt: '',
-      temp: 0,
-      feels_like: 0,
-      temp_min: 0,
-      temp_max: 0,
-      pressure: 0,
-      humidity: 0,
-      type_weather: ''
-    },
-    weathers: [],
-    daily_weathers: [],
-    selectedPeriod: 'Hoy',
-  });
-
-  const fetchWeather = async (latitude: number, longitude: number) => {
+    citiesWeather: {},
+  });  
+  const fetchWeather = async (cityId: number) => {
     try {
+      let city;
+      cityStore.subscribe((state) => {
+        city = state.cities[cityId]
+      });
+      
+      const latitude = city.latitude;
+      const longitude = city.latitude;
+
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_API_KEY}&units=metric&lang=es`);
       const data = await response.json();
       const weather: Weather = {
@@ -43,7 +44,16 @@ const createWeatherStore = () => {
         type_weather: data.weather[0].main,
       };
       update((state) => {
-        state.weather = weather;
+        const cityWeather = state.citiesWeather[cityId];
+        if (!cityWeather) {
+          state.citiesWeather[cityId] = {
+            weather,
+            weathers: [],
+            dailyWeathers: [],
+          };
+        } else {
+          cityWeather.weather = weather;
+        }
         return state;
       });
     } catch (error) {
@@ -51,8 +61,16 @@ const createWeatherStore = () => {
     }
   };
 
-  const fetchWeathers = async (latitude: number, longitude: number) => {
+  const fetchWeathers = async (cityId: number) => {
     try {
+      let city;
+      cityStore.subscribe((state) => {
+        city = state.cities[cityId]
+      });
+      
+      const latitude = city.latitude;
+      const longitude = city.latitude;
+
       const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_API_KEY}&units=metric&lang=es`);
       const data = await response.json();
       const weathers = data.list.map((weather: any) => ({
@@ -66,71 +84,38 @@ const createWeatherStore = () => {
         type_weather: weather.weather[0].main
       }));
       update((state) => {
-        state.weathers = weathers;
-        return state;
-      });
+          state.citiesWeather[cityId].weathers=weathers
+          return state;
+        });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const setSelectedPeriod = (period: PeriodTemp) => {
-    update((state) => {
-      state.selectedPeriod = period;
-      return state;
-    });
-  };
-
-  const updateWeather = (weather: Weather) => {
-    update((state) => {
-      state.weather = weather;
-      return state;
-    });
-  };
-
-  const updateWeathers = (weathers: Weather[]) => {
-    update((state) => {
-      state.weathers = weathers;
-      return state;
-    });
-  };
-
-  const filteredWeathers = (state: WeatherState): Weather[][] => {
-    switch (state.selectedPeriod) {
-      case periodsTemp[0]: // Hoy
-        const todayWeathers = state.weathers.filter(weather =>
+  
+  const filterTodayWeather = (weathers: Weather[]): Weather[] => {
+        return weathers.filter((weather) =>
           DateTime.fromFormat(weather.dt, 'ff').hasSame(DateTime.now().toLocal(), 'day')
         );
-        
-        return [[state.weather, ...todayWeathers]]
-      case periodsTemp[1]: // Mañana
-        const tomorrowWeathers = state.weathers.filter(weather =>
-          DateTime.fromFormat(weather.dt, 'ff').hasSame(DateTime.now().toLocal().plus({ days: 1 }), 'day')
-        );
-        
-        return [tomorrowWeathers]
-      case periodsTemp[2]: // Próximos 5 días
-        
-      const results = [];
-      for (let i = 1; i <= 5; i++) {
-        const daily = state.weathers.filter(weather =>
-          DateTime.fromFormat(weather.dt, 'ff').hasSame(DateTime.now().toLocal().plus({ days: i }), 'day')
-        );
-        results.push(daily);
-      }
-      return results;
     }
-  };
+    const filterNextDaysWeathers = (weathers: Weather[]): Weather[][] => {
+      let result: Weather[][] = [];  
+      for(let i=0; i<6; i++){
+        let total = (weathers.filter((weather) =>
+          DateTime.fromFormat(weather.dt, 'ff').hasSame(DateTime.now().toLocal().plus({ days: i }), 'day')
+        ));
+        result.push(total);
+      }
+      return result;
+     
+    }
 
   return {
     subscribe,
     fetchWeather,
     fetchWeathers,
-    setSelectedPeriod,
-    updateWeather,
-    updateWeathers,
-    filteredWeathers
+    filterTodayWeather,
+    filterNextDaysWeathers
   };
 }
-
 export const weatherStore = createWeatherStore();

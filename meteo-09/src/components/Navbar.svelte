@@ -12,7 +12,7 @@
   });
 </script>
 
-<div class="navbar">
+<div class=" navbar widget bg">
   <div class="navbar-start">
     <div class="control">
       <div class="select">
@@ -30,15 +30,23 @@
       >Añadir ciudad</button
     >
   </div>
-  <div class="navbar-end">
-    <div class="buttons">
-      <a class="button" href="#/">Temperaturas</a>
-      <a class="button" href="#/air-pollution">Contaminación del aire</a>
-    </div>
-  </div>
+  <div class="navbar-end" />
 </div>
 
 <Modal bind:showModal>
   <h2 slot="header">Añadir Ciudad</h2>
   <CityForm on:update:closeModal={() => (showModal = false)} />
 </Modal>
+
+<style>
+  .bg {
+    background-color: #202b3b;
+    min-width: 40vw;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 900px) {
+    .bg {
+      min-width: 0;
+    }
+  }
+</style>
