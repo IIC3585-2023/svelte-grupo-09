@@ -1,59 +1,35 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { airPollutionStore } from '../../stores/airPollution';
-  // import { useCity } from '../stores/city';
-  import { periodsPol } from '../../scripts/constants';
-  import AirPollutionItem from './AirPollutionItem.svelte';
+  import { onMount } from "svelte";
+  import { weatherStore } from "../../stores/weather";
+  import { cityStore } from "../../stores/city";
+  import { periodsTemp } from "../../scripts/constants";
+  import WeatherItem from "../weather/WeatherItem.svelte";
+  import LineItem from "../weather/LineItem.svelte";
+  import AirPollutionItem from "../airPollution/AirPollutionItem.svelte";
 
-  // const cityStore = useCity();
+  import { storeConnector } from "../../stores/unifiedStorage";
+  import ItemCity from "../weather/ItemCity.svelte";
 
-  let airPollutionState;
+  let state;
 
-  airPollutionStore.subscribe((state) => {
-    airPollutionState = state;
+  storeConnector.subscribe((value) => {
+    state = value;
+    console.log(state);
   });
-
-  const fetchData = async () => {
-    // const { latitude, longitude } = cityStore.cities[cityStore.selectedCity];
-    await Promise.all([
-      airPollutionStore.fetchAirPollution(-33.4489, -70.6693),
-      airPollutionStore.fetchAirPollutions(-33.4489, -70.6693),
-    ]);
-  };
-
-  onMount(async () => {
-    await fetchData();
-  });
-
-  // watch(
-  //   () => [
-  //     cityStore.cities[cityStore.selectedCity].latitude,
-  //     cityStore.cities[cityStore.selectedCity].longitude,
-  //   ],
-  //   async () => {
-  //     await fetchData();
-  //   }
-  // );
-
-  // let filteredAirPollutions: ReturnType<
-  //   typeof airPollutionStore.filteredAirPollutions
-  // >;
 </script>
 
-<!-- class="{ 'is-active': period === airPollutionStore.selectedPeriod }" -->
-
-<nav class="is-primary panel">
-  <span class="panel-tabs">
-    {#each periodsPol as period}
-      <a
-        class={period === airPollutionState.selectedPeriod ? 'is-active' : ''}
-        on:click={() => airPollutionStore.setSelectedPeriod(period)}
-      >
-        {period}
-      </a>
+<div>
+  {#if state.status === "loading"}
+    <p>Loading...</p>
+  {:else}
+    {#each state.todayWeatherForAllCities as weather, i (i)}
+      <ItemCity dayWeather={weather} id={i} />
     {/each}
-  </span>
-  {#each airPollutionStore.filteredAirPollutions(airPollutionState) as airPollution}
-    <AirPollutionItem {airPollution} />
-  {/each}
-</nav>
+  {/if}
+</div>
+
+<style scoped>
+  .main-component {
+    margin: 5%;
+  }
+</style>

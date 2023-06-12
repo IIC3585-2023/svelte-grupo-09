@@ -3,33 +3,31 @@ import { DateTime } from 'luxon';
 import type { AirPollution } from '../scripts/airPollution'
 import type { PeriodPol } from '../scripts/constants'
 import { periodsPol } from '../scripts/constants'
+import { cityStore } from './city';
 
-interface AirPollutionState {
+interface CityPollution {
   airPollution: AirPollution;
   airPollutions: AirPollution[];
-  selectedPeriod: PeriodPol;
+}
+
+interface AirPollutionState {
+   citiesPollution: { [key: number]: CityPollution };
 }
 
 const createAirPollutionStore = () => {
   const { subscribe, set, update } = writable<AirPollutionState>({
-    airPollution: {
-      dt: '',
-      aqi: 0,
-      co: 0,
-      no: 0,
-      no2: 0,
-      o3: 0,
-      so2: 0,
-      pm2_5: 0,
-      pm10: 0,
-      nh3: 0
-    },
-    airPollutions: [],
-    selectedPeriod: 'Ahora'
+    citiesPollution: {},
   });
 
-  const fetchAirPollution = async (latitude: number, longitude: number) => {
+  const fetchAirPollution = async (cityId: number) => {
     try {
+      let city;
+      cityStore.subscribe((state) => {
+        city = state.cities[cityId]
+      });
+      const latitude = city.latitude;
+      const longitude = city.latitude;
+      
       const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_API_KEY}`);
       const data = await response.json();
       const body = data.list[0];
@@ -46,15 +44,23 @@ const createAirPollutionStore = () => {
         nh3: body.components.nh3
       };
       update((state) => {
-        state.airPollution = airPollution;
-        return state;
+        const cityPollution = state.citiesPollution[cityId];
+        if (!cityPollution) {
+          state.citiesPollution[cityId] = {
+            airPollution,
+            airPollutions: [],
+          };
+        } else {
+          cityPollution.airPollution = airPollution;
+        }
+        return state
       });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const fetchAirPollutions = async (latitude: number, longitude: number) => {
+  /* const fetchAirPollutions = async (latitude: number, longitude: number) => {
     try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_API_KEY}`);
       const data = await response.json();
@@ -98,9 +104,9 @@ const createAirPollutionStore = () => {
       state.airPollutions = airPollutions;
       return state;
     });
-  };
+  }; */
 
-  const filteredAirPollutions = (state: AirPollutionState): AirPollution[] => {
+  /* const filteredAirPollutions = (state: AirPollutionState): AirPollution[] => {
     switch (state.selectedPeriod) {
       case periodsPol[0]: // Ahora
         return [state.airPollution];
@@ -117,16 +123,16 @@ const createAirPollutionStore = () => {
       default:
         return [];
     }
-  };
+  }; */
 
   return {
     subscribe,
     fetchAirPollution,
-    fetchAirPollutions,
+    /* fetchAirPollutions,
     setSelectedPeriod,
     updateAirPollution,
     updateAirPollutions,
-    filteredAirPollutions
+    filteredAirPollutions */
   };
 };
 

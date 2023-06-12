@@ -4,64 +4,43 @@
   import { cityStore } from "../../stores/city";
   import { periodsTemp } from "../../scripts/constants";
   import WeatherItem from "./WeatherItem.svelte";
+  import LineItem from "./LineItem.svelte";
+  import AirPollutionItem from "../airPollution/AirPollutionItem.svelte";
 
-  let weatherState;
-  let cityState;
+  import { storeConnector } from "../../stores/unifiedStorage";
 
-  const fetchData = async () => {
-    const { latitude, longitude } = cityState.cities[cityState.selectedCity];
-    await Promise.all([
-      weatherStore.fetchWeather(latitude, longitude),
-      weatherStore.fetchWeathers(latitude, longitude),
-    ]);
-  };
-
-  weatherStore.subscribe((state) => {
-    weatherState = state;
-  });
-
-  cityStore.subscribe((state) => {
-    cityState = state;
-    fetchData();
+  let state;
+  let cities;
+  cityStore.subscribe((value) => {
+    cities = value.cities;
   });
 
   onMount(async () => {
-    await fetchData();
+    await cityStore.fetchCities(cities);
+  });
+
+  storeConnector.subscribe((value) => {
+    state = value;
   });
 </script>
 
-<nav class="panel is-primary">
-  <div class="panel-tabs">
-    {#each periodsTemp as period}
-      <button
-        class="tab-button has-text-light"
-        class:is-active={period === weatherState.selectedPeriod}
-        on:click={() => weatherStore.setSelectedPeriod(period)}
-      >
-        {period}
-      </button>
-    {/each}
-  </div>
-  {#each weatherStore.filteredWeathers(weatherState) as weather}
-    <WeatherItem weathers={weather.slice(1)} dayWeather={weather[0]} />
-  {/each}
-</nav>
+<div>
+  {#if state.status === "loading"}
+    <p>Loading...</p>
+  {:else}
+    <WeatherItem
+      weathers={state.todayForeCastForThisCity.slice(1)}
+      dayWeather={state.todayWeatherForThisCity}
+    />
+    <LineItem
+      weathers={state.todayForeCastForThisCity.slice(1)}
+    />
+    <AirPollutionItem airPollution={state.todayPollutionForThisCity} />
+  {/if}
+</div>
 
-<style>
-  .tab-button {
-    border: none;
-    background: none;
-    padding: 10px;
-    cursor: pointer;
-    outline: inherit;
-    font: inherit;
-    border-bottom: 5px solid transparent;
-    transition: all 0.3s ease;
-  }
-  .tab-button:hover {
-    border-bottom: 5px solid #00d1b2;
-  }
-  .tab-button.is-active {
-    border-bottom: 5px solid #00d1b2;
+<style scoped>
+  .main-component {
+    margin: 5%;
   }
 </style>
