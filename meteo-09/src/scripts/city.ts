@@ -4,4 +4,5 @@ export interface City {
   latitude: number;
   longitude: number;
   imageURL: string;
+  id: number;
 }

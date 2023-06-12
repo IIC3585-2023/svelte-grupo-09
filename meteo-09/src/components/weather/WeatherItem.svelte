@@ -1,72 +1,55 @@
 <script lang="ts">
   import type { Weather } from "../../scripts/weather";
-  import { DateTime } from "luxon";
-  import { cityStore } from '../../stores/city';
-  import LineItem from "./LineItem.svelte";
-
+  import { cityStore } from "../../stores/city";
+  import WeatherIcon from "./WeatherIcon.svelte";
 
   let cityState;
 
   export let dayWeather: Weather;
-  export let weathers: Weather[];
 
   cityStore.subscribe((state) => {
     cityState = state;
   });
-
 </script>
 
-<div class="card my-2 weather-card"
-  style={`background-image: url(${cityState.cities[cityState.selectedCity].imageURL})`}>
-    <div class="card-content">
-      <div class="bg-light-grey">
-        <div class="is-flex is-justify-content-space-between">
-          <p class="title is-1 has-text-white">
-            {
-              DateTime.fromFormat(dayWeather.dt, "ff").toFormat(
-                "cccc, d LLLL yyyy"
-              )
-            }
-          </p>
-          <p class="title is-2 has-text-white mr-6 has-text-weight-light">
-            { cityState.cities[cityState.selectedCity].name }
-          </p>
-        </div>
-        <div class="is-flex is-justify-content-space-between">
-          <p class="subtitle is-4 has-text-white">
-            <!-- { DateTime.fromFormat(dayWeather.dt, "ff").toFormat("HH:mm") } -->
-          </p>
-          <p class="title is-3 has-text-white mr-6 has-text-weight-light">
-            { cityState.cities[cityState.selectedCity].country }
-          </p>
-        </div>
-      </div>
-
-      <br />
-
-      <div class="content has-text-white has-text-bold ">
-        <div class="bg-light-grey" style="display: inline-block;">
-          <p>Se siente como: { dayWeather.feels_like }°C</p>
-          <p>Presión atmosférica: { dayWeather.pressure }hPa</p>
-          <p>Humedad: { dayWeather.humidity }%</p>
-        </div>
-      </div>
-      <LineItem weathers={weathers} dayWeather={dayWeather} />
+<div
+  class="weather-card widget card"
+  style={`background-image: url(${
+    cityState.cities[cityState.selectedCity].imageURL
+  })`}
+>
+  <div class="card-content">
+    <div class="is-flex is-justify-content-space-between">
+      <p
+        class="title is-1 is-size-6-mobile has-text-white has-text-weight-medium"
+      >
+        {cityState.cities[cityState.selectedCity].name}
+      </p>
+      <WeatherIcon weather={dayWeather} size="is-128x128" />
     </div>
-  </div>
+    <div class="is-flex">
+      <div>
+        <p class="tag is-6 mb-2 has-text-white has-background-grey">Máxima</p>
+        <p class="title is-3 mb-2 has-text-white">
+          {Math.round(dayWeather.temp_max)}°C
+        </p>
+      </div>
+      <div>
+        <p class="tag is-6 mb-2 has-text-white has-background-grey">Mínima</p>
+        <p class="title is-3 mb-2 has-text-white">
+          {Math.round(dayWeather.temp_min)}°C
+        </p>
+      </div>
+    </div>
 
+    <br />
+  </div>
+</div>
 
 <style scoped>
   .weather-card {
     background-size: cover;
     background-position: center;
+    margin-bottom: 1rem;
   }
-  
-  .bg-light-grey {
-    padding: 1rem;
-    background-color: #3e3636d4;
-    border: 2px solid #5b5454d4;
-    border-radius: 5%;
-    margin: 0 4px;
-  }
-  </style>
+</style>

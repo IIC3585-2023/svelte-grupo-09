@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import { onMount } from 'svelte';
   import { airPollutionStore } from '../../stores/airPollution';
   import { cityStore } from '../../stores/city';
@@ -28,9 +28,9 @@
   onMount(async () => {
     await fetchData();
   });
-</script>
+</script> -->
 
-<nav class="is-primary panel">
+<!-- <nav class="is-primary panel">
   <span class="panel-tabs">
     {#each periodsPol as period}
       <button
@@ -45,9 +45,9 @@
   {#each airPollutionStore.filteredAirPollutions(airPollutionState) as airPollution}
     <AirPollutionItem {airPollution} />
   {/each}
-</nav>
+</nav> -->
 
-<style>
+<!-- <style>
   .tab-button {
     border: none;
     background: none;
@@ -64,4 +64,26 @@
   .tab-button.is-active {
     border-bottom: 5px solid #00d1b2;
   }
-</style>
+</style> -->
+
+<script>
+  import { storeConnector } from '../../stores/unifiedStorage';
+  import ItemCity from '../weather/ItemCity.svelte';
+
+  let state;
+
+  storeConnector.subscribe((value) => {
+    state = value;
+  });
+</script>
+
+<div>
+  <!-- this is the multi country weather not air pollution   -->
+  {#if state.status === 'loading'}
+    <p>Loading...</p>
+  {:else}
+    {#each state.todayWeatherForAllCities as weather, i (i)}
+      <ItemCity dayWeather={weather} id={i} />
+    {/each}
+  {/if}
+</div>
