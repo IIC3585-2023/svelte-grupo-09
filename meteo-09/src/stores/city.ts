@@ -57,14 +57,14 @@ const createCityStore = () => {
     selectedCity: 0,
   });
 
-/*   const fetchData = async (id) => {
+   const fetchData = async (id) => {
       await Promise.all([
               weatherStore.fetchWeather(id),
               weatherStore.fetchWeathers(id),
               airPollutionStore.fetchAirPollution(id)
           ])
-      ;
-  } */
+
+  }
 
   const setSelectedCity = (idx: number) => {
     update((state) => {
@@ -74,6 +74,7 @@ const createCityStore = () => {
   };
 
   const addCity = (city: City) => {
+    
     update((state) => {
       state.cities = [...state.cities, city];
       state.selectedCity = state.cities.length - 1
@@ -105,7 +106,8 @@ const createCityStore = () => {
     setSelectedCity,
     addCity,
     setCities,
-    fetchCities
+    fetchCities,
+    fetchData
   };
 }
 

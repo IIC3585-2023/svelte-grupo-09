@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { cityStore } from '../../stores/city';
-  import WeatherItem from './WeatherItem.svelte';
-  import LineItem from './LineItem.svelte';
-  import AirPollutionItem from '../airPollution/AirPollutionItem.svelte';
+  import { onMount } from "svelte";
+  import { cityStore } from "../../stores/city";
+  import WeatherItem from "./WeatherItem.svelte";
+  import LineItem from "./LineItem.svelte";
+  import AirPollutionItem from "../airPollution/AirPollutionItem.svelte";
 
-  import { storeConnector } from '../../stores/unifiedStorage';
+  import { storeConnector } from "../../stores/unifiedStorage";
 
   let state;
   let cities;
@@ -23,11 +23,11 @@
 </script>
 
 <div>
-  {#if state.status === 'loading'}
+  {#if state.status === "loading"}
     <p>Loading...</p>
   {:else}
     <WeatherItem dayWeather={state.todayWeatherForThisCity} />
-    <LineItem weathers={state.todayForeCastForThisCity.slice(1)} />
+    <LineItem weathers={state.todayForeCastForThisCity} />
     <AirPollutionItem airPollution={state.todayPollutionForThisCity} />
   {/if}
 </div>

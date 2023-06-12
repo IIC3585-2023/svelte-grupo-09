@@ -4,6 +4,7 @@
   import WeatherIcon from "./WeatherIcon.svelte";
 
   export let weather: Weather;
+
   let dayToShow = DateTime.fromFormat(weather.dt, "ff").hasSame(
     DateTime.now(),
     "day"
