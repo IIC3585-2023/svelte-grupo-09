@@ -33,15 +33,35 @@
 <nav class="is-primary panel">
   <span class="panel-tabs">
     {#each periodsPol as period}
-      <a
-        class={period === airPollutionState.selectedPeriod ? 'is-active' : ''}
+      <button
+        class="tab-button has-text-light"
+        class:is-active={period === airPollutionState.selectedPeriod}
         on:click={() => airPollutionStore.setSelectedPeriod(period)}
       >
         {period}
-      </a>
+      </button>
     {/each}
   </span>
   {#each airPollutionStore.filteredAirPollutions(airPollutionState) as airPollution}
     <AirPollutionItem {airPollution} />
   {/each}
 </nav>
+
+<style>
+  .tab-button {
+    border: none;
+    background: none;
+    padding: 10px;
+    cursor: pointer;
+    outline: inherit;
+    font: inherit;
+    border-bottom: 5px solid transparent;
+    transition: all 0.3s ease;
+  }
+  .tab-button:hover {
+    border-bottom: 5px solid #00d1b2;
+  }
+  .tab-button.is-active {
+    border-bottom: 5px solid #00d1b2;
+  }
+</style>

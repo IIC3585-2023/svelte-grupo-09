@@ -39,5 +39,6 @@
 </div>
 
 <Modal bind:showModal>
+  <h2 slot="header">Añadir Ciudad</h2>
   <CityForm on:update:closeModal={() => (showModal = false)} />
 </Modal>
