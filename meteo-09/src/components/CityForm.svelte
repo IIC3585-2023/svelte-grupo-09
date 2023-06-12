@@ -1,20 +1,21 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { writable } from 'svelte/store';
-  import FormInput from './FormInput.svelte';
-  import type { City } from '../scripts/city';
-  import type { Status } from '../scripts/validation';
+  import { createEventDispatcher } from "svelte";
+  import { writable } from "svelte/store";
+  import FormInput from "./FormInput.svelte";
+  import type { City } from "../scripts/city";
+  import type { Status } from "../scripts/validation";
   import {
     validate,
     required,
     isValidLatitude,
     isValidLongitude,
-  } from '../scripts/validation';
-  import { cityStore } from '../stores/city';
+  } from "../scripts/validation";
+  import { cityStore } from "../stores/city";
+  import { storeConnector } from "../stores/unifiedStorage";
 
   let nameValue: string;
   let nameStatus: Status;
-  const name = writable('');
+  const name = writable("");
 
   name.subscribe((value) => (nameValue = value));
 
@@ -33,10 +34,10 @@
   let longitudeStatus: Status;
   let imageURLStatus: Status;
 
-  const country = writable('');
-  const latitude = writable('');
-  const longitude = writable('');
-  const imageURL = writable('');
+  const country = writable("");
+  const latitude = writable("");
+  const longitude = writable("");
+  const imageURL = writable("");
 
   country.subscribe((value) => (countryValue = value));
   latitude.subscribe((value) => (latitudeValue = value));
@@ -62,16 +63,25 @@
 
   const dispatch = createEventDispatcher();
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    let cityLength: number;
+    cityStore.subscribe((value) => {
+      cityLength = value.cities.length;
+    });
+
     const newCity: City = {
       name: nameValue,
       country: countryValue,
       latitude: Number(latitudeValue),
       longitude: Number(longitudeValue),
       imageURL: imageURLValue,
+      id: cityLength,
     };
+    storeConnector.setLoading();
     cityStore.addCity(newCity);
-    dispatch('update:closeModal', false);
+    //await cityStore.fetchData(newCity.id).then();
+
+    dispatch("update:closeModal", false);
   }
 </script>
 

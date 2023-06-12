@@ -27,7 +27,7 @@
     <p>Loading...</p>
   {:else}
     <WeatherItem dayWeather={state.todayWeatherForThisCity} />
-    <LineItem weathers={state.todayForeCastForThisCity.slice(1)} />
+    <LineItem weathers={state.todayForeCastForThisCity} />
     <AirPollutionItem airPollution={state.todayPollutionForThisCity} />
   {/if}
 </div>

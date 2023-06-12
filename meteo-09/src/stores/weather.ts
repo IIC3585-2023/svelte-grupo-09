@@ -83,6 +83,7 @@ const createWeatherStore = () => {
         humidity: weather.main.humidity,
         type_weather: weather.weather[0].main
       }));
+
       update((state) => {
           state.citiesWeather[cityId].weathers=weathers
           return state;
@@ -94,10 +95,10 @@ const createWeatherStore = () => {
 
   
   const filterTodayWeather = (weathers: Weather[]): Weather[] => {
-        return weathers.filter((weather) =>
-          DateTime.fromFormat(weather.dt, 'ff').hasSame(DateTime.now().toLocal(), 'day')
-        );
+    return weathers.filter((weather) =>
+      DateTime.fromFormat(weather.dt, 'ff').hasSame(DateTime.now().toLocal(), 'day'));
     }
+    
     const filterNextDaysWeathers = (weathers: Weather[]): Weather[][] => {
       let result: Weather[][] = [];  
       for(let i=0; i<6; i++){
