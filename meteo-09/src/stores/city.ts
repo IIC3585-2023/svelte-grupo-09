@@ -2,6 +2,7 @@ import { writable, get } from 'svelte/store';
 import type { City } from '../scripts/city'
 import { airPollutionStore } from './airPollution';
 import { weatherStore } from './weather';
+
 interface CityState {
   cities: City[]
   selectedCity: number
