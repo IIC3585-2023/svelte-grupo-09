@@ -17,7 +17,7 @@ const createConnectorStore = () => {
 
     let cities = get(cityStore).cities;
     cityStore.fetchCities(cities).then(() => {
-        let $cityStore = get(cityStore);
+        cityStore.subscribe(async $cityStore => {
         if ($cityStore) {
             let selectedCity: City = $cityStore.cities[$cityStore.selectedCity];
             let cities: City[] = $cityStore.cities;
@@ -37,6 +37,7 @@ const createConnectorStore = () => {
                 todayPollutionForAllCities
             });
         }
+    });
     });
 
     return {

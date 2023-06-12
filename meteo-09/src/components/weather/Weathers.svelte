@@ -21,6 +21,7 @@
 
   storeConnector.subscribe((value) => {
     state = value;
+    console.log(value);
   });
 </script>
 
@@ -32,9 +33,7 @@
       weathers={state.todayForeCastForThisCity.slice(1)}
       dayWeather={state.todayWeatherForThisCity}
     />
-    <LineItem
-      weathers={state.todayForeCastForThisCity.slice(1)}
-    />
+    <LineItem weathers={state.todayForeCastForThisCity.slice(1)} />
     <AirPollutionItem airPollution={state.todayPollutionForThisCity} />
   {/if}
 </div>
