@@ -81,7 +81,7 @@
       </tr>
       <tr>
         <td>Buena</td>
-        <td class={`tag is-medium ${aqiColors[1]}`}>1</td>
+        <td class={`tag is-medium ${aqiColors[1]}`}><b>1</b></td>
         <td>[0; 20)</td>
         <td>[0; 40)</td>
         <td>[0; 20)</td>
@@ -91,7 +91,7 @@
       </tr>
       <tr>
         <td>Justa</td>
-        <td class={`tag is-medium ${aqiColors[2]}`}>2</td>
+        <td class={`tag is-medium ${aqiColors[2]}`}><b>2</b></td>
         <td>[20; 80)</td>
         <td>[40; 70)</td>
         <td>[20; 50)</td>
@@ -101,7 +101,7 @@
       </tr>
       <tr>
         <td>Moderada</td>
-        <td class={`tag is-medium ${aqiColors[3]}`}>3</td>
+        <td class={`tag is-medium ${aqiColors[3]}`}><b>3</b></td>
         <td>[80; 250)</td>
         <td>[70; 150)</td>
         <td>[50; 100)</td>
@@ -111,7 +111,7 @@
       </tr>
       <tr>
         <td>Pobre</td>
-        <td class={`tag is-medium ${aqiColors[4]}`}>4</td>
+        <td class={`tag is-medium ${aqiColors[4]}`}><b>4</b></td>
         <td>[250; 350)</td>
         <td>[150; 200)</td>
         <td>[100; 200)</td>
@@ -121,7 +121,7 @@
       </tr>
       <tr>
         <td>Muy pobre</td>
-        <td class={`tag is-medium ${aqiColors[5]}`}>5</td>
+        <td class={`tag is-medium ${aqiColors[5]}`}><b>5</b></td>
         <td>⩾350</td>
         <td>⩾200</td>
         <td>⩾200</td>
