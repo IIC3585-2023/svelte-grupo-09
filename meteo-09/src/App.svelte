@@ -1,16 +1,23 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import Router from 'svelte-spa-router';
   import Navbar from './components/Navbar.svelte';
-  import AirPollutions from './components/airPollution/AirPollutions.svelte';
+  import Cities from './components/cities/Cities.svelte';
   import Weathers from './components/weather/Weathers.svelte';
   import Sidebar from './Sidebar.svelte';
   import Rightbar from './Right.svelte';
-  import { storeConnector } from './stores/unifiedStorage';
+  import { cityStore } from './stores/city';
 
   const routes = {
     '/': Weathers,
-    '/paises': AirPollutions,
+    '/paises': Cities,
   };
+
+  onMount(() => {
+    if (localStorage.getItem('cities')) {
+      cityStore.setCities(JSON.parse(localStorage.getItem('cities')));
+    }
+  });
 </script>
 
 <main class="app">

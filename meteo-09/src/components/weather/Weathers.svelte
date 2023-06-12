@@ -3,7 +3,7 @@
   import { cityStore } from '../../stores/city';
   import WeatherItem from './WeatherItem.svelte';
   import LineItem from './LineItem.svelte';
-  import AirPollutionItem from '../airPollution/AirPollutionItem.svelte';
+  import AirPollutionItem from '../cities/AirPollutionItem.svelte';
 
   import { storeConnector } from '../../stores/unifiedStorage';
 

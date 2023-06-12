@@ -1,15 +1,15 @@
 <script lang="ts">
-  import Router from "svelte-spa-router";
-  import Navbar from "./components/Navbar.svelte";
-  import AirPollutions from "./components/airPollution/AirPollutions.svelte";
-  import Weathers from "./components/weather/Weathers.svelte";
-  import Sidebar from "./Sidebar.svelte";
-  import Rightbar from "./Right.svelte";
-  import { storeConnector } from "./stores/unifiedStorage";
+  import Router from 'svelte-spa-router';
+  import Navbar from './components/Navbar.svelte';
+  import AirPollutions from './components/cities/Cities.svelte';
+  import Weathers from './components/weather/Weathers.svelte';
+  import Sidebar from './Sidebar.svelte';
+  import Rightbar from './Right.svelte';
+  import { storeConnector } from './stores/unifiedStorage';
 
   const routes = {
-    "/": Weathers,
-    "/air-pollution": AirPollutions,
+    '/': Weathers,
+    '/air-pollution': AirPollutions,
   };
 
   const fetchAllWeathers = async () => {
@@ -30,8 +30,8 @@
 </main>
 
 <style>
-  @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
-  @import "@fortawesome/fontawesome-free/css/all.css";
+  @import 'https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css';
+  @import '@fortawesome/fontawesome-free/css/all.css';
   .app {
     display: flex; /* añade esta línea */
     border: 10px solid red;
