@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { weatherStore } from "../../stores/weather";
   import { cityStore } from "../../stores/city";
-  import { periodsTemp } from "../../scripts/constants";
   import WeatherItem from "./WeatherItem.svelte";
   import LineItem from "./LineItem.svelte";
   import AirPollutionItem from "../airPollution/AirPollutionItem.svelte";
@@ -29,17 +27,8 @@
   {#if state.status === "loading"}
     <p>Loading...</p>
   {:else}
-    <WeatherItem
-      weathers={state.todayForeCastForThisCity.slice(1)}
-      dayWeather={state.todayWeatherForThisCity}
-    />
+    <WeatherItem dayWeather={state.todayWeatherForThisCity} />
     <LineItem weathers={state.todayForeCastForThisCity.slice(1)} />
     <AirPollutionItem airPollution={state.todayPollutionForThisCity} />
   {/if}
 </div>
-
-<style scoped>
-  .main-component {
-    margin: 5%;
-  }
-</style>

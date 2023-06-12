@@ -1,8 +1,6 @@
 import { writable } from 'svelte/store';
 import { DateTime } from 'luxon'
 import type { Weather } from '../scripts/weather'
-import type { PeriodTemp } from '../scripts/constants';
-import { periodsTemp } from '../scripts/constants';
 import { cityStore } from './city';
 
 

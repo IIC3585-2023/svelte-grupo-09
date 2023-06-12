@@ -1,14 +1,13 @@
 <script setup lang="ts">
   import type { Weather } from "../../scripts/weather";
   import SmallWeatherItem from "./SmallWeatherItem.svelte";
-  import WeatherIcon from "./WeatherIcon.svelte";
   import { weatherStore } from "../../stores/weather";
   export let weathers: Weather[];
 </script>
 
 <div class="widget is-flex columns">
   {#each weatherStore.filterTodayWeather(weathers) as weather}
-    <SmallWeatherItem weather={weather} />
+    <SmallWeatherItem {weather} />
   {/each}
 </div>
 

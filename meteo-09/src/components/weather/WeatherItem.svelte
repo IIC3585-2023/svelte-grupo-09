@@ -1,14 +1,11 @@
 <script lang="ts">
   import type { Weather } from "../../scripts/weather";
-  import { DateTime } from "luxon";
   import { cityStore } from "../../stores/city";
-  import LineItem from "./LineItem.svelte";
   import WeatherIcon from "./WeatherIcon.svelte";
 
   let cityState;
 
   export let dayWeather: Weather;
-  export let weathers: Weather[];
 
   cityStore.subscribe((state) => {
     cityState = state;
@@ -54,12 +51,5 @@
     background-size: cover;
     background-position: center;
     margin-bottom: 1rem;
-  }
-
-  .bg-light-grey {
-    background-color: #3e3636d4;
-    border: 2px solid #5b5454d4;
-    border-radius: 5%;
-    margin: 0 4px;
   }
 </style>

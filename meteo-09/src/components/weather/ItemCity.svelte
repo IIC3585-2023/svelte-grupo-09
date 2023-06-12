@@ -1,8 +1,6 @@
 <script lang="ts">
   import type { Weather } from "../../scripts/weather";
-  import { DateTime } from "luxon";
   import { cityStore } from "../../stores/city";
-  import LineItem from "./LineItem.svelte";
   import WeatherIcon from "./WeatherIcon.svelte";
 
   let cityState;
@@ -18,10 +16,10 @@
   class="weather-card widget card"
   style={`background-image: url(${cityState.cities[id].imageURL})`}
 >
-  <div
-    class="is-flex is-justify-content-space-between is-align-items-center"
-  >
-    <p class="title is-1 is-size-6-mobile has-text-white has-text-weight-medium no-shrink">
+  <div class="is-flex is-justify-content-space-between is-align-items-center">
+    <p
+      class="title is-1 is-size-6-mobile has-text-white has-text-weight-medium no-shrink"
+    >
       {cityState.cities[id].name}
     </p>
     <div>
@@ -48,11 +46,5 @@
   }
   .no-shrink {
     flex-shrink: 0;
-  }
-  .bg-light-grey {
-    background-color: #3e3636d4;
-    border: 2px solid #5b5454d4;
-    border-radius: 5%;
-    margin: 0 4px;
   }
 </style>

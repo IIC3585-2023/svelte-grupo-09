@@ -1,8 +1,6 @@
 import { writable } from 'svelte/store';
 import { DateTime } from 'luxon';
 import type { AirPollution } from '../scripts/airPollution'
-import type { PeriodPol } from '../scripts/constants'
-import { periodsPol } from '../scripts/constants'
 import { cityStore } from './city';
 
 interface CityPollution {
