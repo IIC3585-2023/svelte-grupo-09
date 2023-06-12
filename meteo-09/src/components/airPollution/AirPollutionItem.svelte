@@ -131,4 +131,11 @@
       </tr>
     </tbody>
   </table>
+  <div class="has-text-left">
+    <p>Otros parámetros que no afectan el cálculo del AQI:</p>
+    <ul>
+      <li>NH3: valor mínimo 0.1 - valor máximo 200</li>
+      <li>NO: valor mínimo 0.1 - valor máximo 100</li>
+    </ul>
+  </div>
 </Modal>
